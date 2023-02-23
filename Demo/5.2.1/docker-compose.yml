@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    image: centos
+    depends_on:
+      - db
+    command: >
+      /bin/bash -c '
+      yum install nc -y;
+      while ! nc -z db 3306;
+      do
+        echo "wait for db";
+        sleep 1;
+      done;
+
+      echo "db is running!";
+      echo "start web service from here";
+      '
+  db:
+    image: centos
+    command: >
+      /bin/bash -c '
+      yum install nc -y;
+      sleep 5;
+      echo "sleep over";
+      nc -lk 0.0.0.0 3306;
+      '
