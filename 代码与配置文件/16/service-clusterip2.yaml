@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-clusterip
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 1234
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx

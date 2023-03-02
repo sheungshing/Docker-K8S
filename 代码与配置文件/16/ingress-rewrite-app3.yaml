@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: ingress-rewrite-app3
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # /$1 这里重定向到 "/"
+    # /abc/$1  这表示重定向到服务的  /abc/
+spec:
+  rules:
+    - host: test.example.com
+      http:
+        paths:
+          - path: /
+           # 所有/** 重定向到 /abc/**
+            backend:
+              serviceName: ingress-rewrite-app1
+              servicePort: 80
+          - path: /app2
+            backend:
+              serviceName: ingress-rewrite-app2 
+              servicePort: 80

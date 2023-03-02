@@ -1,0 +1,13 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  # 由于ClusterRole针对的是集群范围对象，因此不需要定义namespace字段
+  name: sa-demo-clusterrole
+rules:
+  # 空字符串""表明使用core API group
+- apiGroups: ["rbac.authorization.k8s.io",""]
+  resources: ["pods","pods/log"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: ["apps"]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch"]

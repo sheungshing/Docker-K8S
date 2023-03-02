@@ -1,0 +1,17 @@
+ExecStart=/usr/bin/dockerd-current \
+  --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
+  --default-runtime=docker-runc \
+  --exec-opt native.cgroupdriver=systemd \
+  --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
+  --init-path=/usr/libexec/docker/docker-init-current \
+  --seccomp-profile=/etc/docker/seccomp.json \
+  -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock \
+  --cluster-store zk://192.168.79.11:2181 \
+  --cluster-advertise 192.168.79.11:2375 \
+  $OPTIONS \
+  $DOCKER_STORAGE_OPTIONS \
+  $DOCKER_NETWORK_OPTIONS \
+  $ADD_REGISTRY \
+  $BLOCK_REGISTRY \
+  $INSECURE_REGISTRY \
+  $REGISTRIES

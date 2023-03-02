@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-demo-v2
+  labels:
+    app: canary-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: canary-demo
+      version: v2.0.0
+  template:
+    metadata:
+      labels:
+        app: canary-demo
+        version: v2.0.0
+    spec:
+      containers:
+      - name: canary-demo
+        image: collenzhao/k8s-deployment-strategies
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: VERSION
+          value: v2.0.0

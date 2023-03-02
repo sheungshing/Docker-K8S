@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-tomcat-configmap
+data:
+  filebeat.yml: |-
+    filebeat.prospectors:
+    - type: log
+      paths:
+        - /usr/local/tomcat/logs/localhost_access_log*
+      # tags: ["access"]
+      fields:
+        app: www
+        type: javawebdemo
+      fields_under_root: true
+    output.logstash:
+      hosts: ['192.168.79.11:5044']

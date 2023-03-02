@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-test-service
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+  selector:     
+    app: www
+    type: nginx-demo
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: www
+      type: nginx-demo
+  template:
+    metadata:
+      labels:
+        app: www
+        type: nginx-demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: nginx-logs
+          mountPath: /var/log/nginx
+      - name: filebeat
+        image: collenzhao/filebeat:6.5.4
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        volumeMounts:
+        - name: filebeat-config
+          mountPath: /etc/filebeat.yml
+          subPath: filebeat.yml
+        - name: nginx-logs
+          mountPath: /usr/local/nginx/logs
+      volumes:
+      - name: nginx-logs
+        emptyDir: {}
+      - name: filebeat-config
+        configMap:
+          name: filebeat-nginx-config

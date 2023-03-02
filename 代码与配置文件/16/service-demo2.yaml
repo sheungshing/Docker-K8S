@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-demo2
+  namespace: default
+spec:
+  #这里使用NodePort类型的Service将应用程序暴露给外部
+  type: NodePort 
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  #定义标签选择器，将服务Service与匹配便签的一组Pod关联起来。
+  selector:     
+    app: nginx

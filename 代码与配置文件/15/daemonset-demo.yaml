@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+    name: daemonset-demo
+    namespace: default
+spec:
+    minReadySeconds: 5
+    selector:
+        matchLabels:
+            app: daemonset
+    template:
+        metadata:
+            name: daemonset-demo
+            namespace: default
+            labels:
+                app: daemonset
+        spec:
+            containers:
+                - name: daemonset-demo   
+                  image: nginx
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                    - name: httpd
+                      containerPort: 80

@@ -1,0 +1,5 @@
+deployname: my-nginx
+replicaCount: 2
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: headless-service
+spec:
+  selector:
+    name: busybox
+  # 设置为无头服务Service	
+  clusterIP: None
+  ports:
+    - name: demo 
+      port: 1234
+      targetPort: 1234
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: headless-service-pod-1
+  labels:
+    name: busybox
+spec:
+  hostname: headless-service-pod-1
+  containers:
+    - image: busybox
+      command:
+        - sleep
+        - "3600"
+      name: busybox
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: headless-service-pod-2
+  labels:
+    name: busybox
+spec:
+  hostname: headless-service-pod-2
+  containers:
+    - image: busybox
+      command:
+        - sleep
+        - "3600"
+      name: busybox

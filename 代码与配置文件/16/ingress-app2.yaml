@@ -1,0 +1,35 @@
+#ingress-app2.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingress-app2
+  name: ingress-app2
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: ingress-app2
+  template:
+    metadata:
+      labels:
+        app: ingress-app2
+    spec:
+      containers:
+      - image: collenzhao/ingress-app2
+        name: ingress-app2
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-app2
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:     
+    app: ingress-app2
+  type: NodePort

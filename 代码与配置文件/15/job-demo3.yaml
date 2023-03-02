@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-demo3
+spec:
+  activeDeadlineSeconds: 20
+  template:
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/sh", "-c", "sleep 120s" ]
+      #重启策略，发生错误，不进行重启
+      restartPolicy: Never 

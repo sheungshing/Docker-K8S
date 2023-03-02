@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 10; rm -rf /tmp/healthy; sleep 10
+    ## 这里以存活探针为例
+    livenessProbe:  
+       ## 指定存活探针检查方法是ExecAction
+      exec:
+         ## 指定在容器内具体执行的命令
+        command:
+        - cat
+        - /tmp/healthy
+       ## 指定容器启动5秒后才进行检查
+      initialDelaySeconds: 5   
+       ## 指定每隔5秒检查一次
+      periodSeconds: 5  

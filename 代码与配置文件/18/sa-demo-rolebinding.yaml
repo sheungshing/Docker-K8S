@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: sa-demo
+  name: sa-demo-rolebinding
+subjects:
+- kind: ServiceAccount
+  namespace: sa-demo
+  # Service Account的名称
+  name: mysa
+roleRef:
+  kind: Role
+  # 角色名称
+  name: sa-demo-role
+  apiGroup: rbac.authorization.k8s.io

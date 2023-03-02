@@ -1,0 +1,5 @@
+KUBELET_ADDRESS="--address=192.168.79.12"
+KUBELET_PORT="--port=10250"
+KUBELET_HOSTNAME="--hostname-override=192.168.79.12"
+KUBELET_API_SERVER="--api-servers=http://192.168.79.11:8080"
+KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=docker.io/collenzhao/pod-infrastructure"

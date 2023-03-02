@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-usage01
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "echo $(HOST) $(PORT)" ]
+      env:
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+              name: demo-configmap4
+              key: db.host
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: demo-configmap4
+              key: db.port
+  restartPolicy: Never

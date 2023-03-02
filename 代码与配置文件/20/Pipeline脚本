@@ -1,0 +1,9 @@
+def label = "jenkins-slave-${UUID.randomUUID().toString()}"
+podTemplate(label: label, cloud: 'kubernetes') {
+    node(label) {
+        stage('Run shell') {
+            sh 'sleep 60s'
+            sh 'echo hello world.'
+        }
+    }
+}

@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: javawebdemo-service
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: www
+    type: javawebdemo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: www
+    type: javawebdemo
+  name: javawebdemo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: www
+      type: javawebdemo
+  template:
+    metadata:
+      labels:
+        app: www
+        type: javawebdemo
+    spec:
+      containers:
+      - name: k8s-javaweb-demo
+        image: collenzhao/k8s-javaweb-demo
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: tomcat-logs
+          mountPath: /usr/local/tomcat/logs
+      - name: filebeat
+        image: collenzhao/filebeat:6.5.4
+        imagePullPolicy: IfNotPresent
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        securityContext:
+           runAsUser: 0
+        volumeMounts:
+        - name: filebeat-config
+          mountPath: /etc/filebeat.yml
+          subPath: filebeat.yml
+        - name: tomcat-logs
+          mountPath: /usr/local/tomcat/logs
+      volumes:
+      - name: tomcat-logs
+        emptyDir: {}
+      - name: filebeat-config
+        configMap:
+          name: filebeat-tomcat-configmap

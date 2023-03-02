@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-green-demo-v2
+  labels:
+    app: blue-green-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blue-green-demo
+      version: v2.0.0
+  template:
+    metadata:
+      labels:
+        app: blue-green-demo
+        version: v2.0.0
+    spec:
+      containers:
+      - name: blue-green-demo
+        image: collenzhao/k8s-deployment-strategies
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: VERSION
+          value: v2.0.0

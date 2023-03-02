@@ -1,0 +1,48 @@
+@Test
+public void registerService() {
+	// 创建Consul的客户端
+	Consul consul = Consul.builder()
+						  .withHostAndPort
+						  (HostAndPort.fromString("192.168.79.11:8500"))
+						  .build();
+	AgentClient client = consul.agentClient();
+
+	// 设置健康检查策略，并将一个Nginx的首页注册到Consul
+	ImmutableRegCheck check = ImmutableRegCheck
+							  .builder()
+							  .interval("5s")
+							  .http("http://192.168.79.11:1234/")
+							  .build();
+
+	//设置服务的ID、标签信息，并添加监控检查策略
+	ImmutableRegistration.Builder builder = 
+							  ImmutableRegistration.builder();
+	
+	builder.id("nginx_id")
+		   .name("nginx")
+		   .addTags("v1")
+		   .addChecks(check);
+
+	//完成注册
+	client.register(builder.build());
+	System.out.println("服务注册完成");
+}
+
+@Test
+public void getService() {
+	// 创建Consul的客户端
+	Consul consul = Consul.builder()
+						  .withHostAndPort
+						  (HostAndPort.fromString("192.168.79.11:8500"))
+						  .build();
+	HealthClient client = consul.healthClient();
+
+	//输出注册的信息
+	client.getHealthyServiceInstances("nginx")
+		  .getResponse().forEach((response) -> {
+		System.out.println(response);
+	});
+}
+
+
+

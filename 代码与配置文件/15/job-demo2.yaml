@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: job-demo2
+spec:
+    completions: 5
+    parallelism: 3
+    template:
+      spec:
+        containers:
+        - name: job-demo2
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          # 模拟作业需要执行60秒钟 
+          command: ["/bin/bash","-c","sleep 60"]
+        #重启策略，不进行重启
+        restartPolicy:  Never 

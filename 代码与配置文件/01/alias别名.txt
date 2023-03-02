@@ -1,0 +1,2 @@
+alias myps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Ports}}"'
+alias myimages='docker images --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"'

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  # 定义应用程序的web模块
+  web:
+    image: centos
+    # 指定web模块依赖db模块
+    # db模块启动后，web模块才可以启动
+    depends_on:
+      - db
+  # 定义应用程序的db模块
+  db:
+    image: centos
+    # 启动db模块时，安装nc工具用于模拟mysql数据库服务
+    command: >
+      /bin/bash -c '
+      yum install nc -y;
+      sleep 5;
+      echo "sleep over";
+      nc -lk 0.0.0.0 3306;
+      '

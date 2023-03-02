@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  mysql.properties: |
+    mysql.host=127.0.0.1
+    mysql.port=3306
+    mysql.password=123456
+  redis.properties: |
+    redis.host=localhost
+    redis.port=6379
+    redis.password=123456
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2022-01-28T04:00:31Z"
+  name: demo-configmap2
+  namespace: default
+  resourceVersion: "64797"
+  selfLink: /api/v1/namespaces/default/configmaps/demo-configmap2
+  uid: c8382408-1b2c-4da3-b468-1ca5f88d3f02

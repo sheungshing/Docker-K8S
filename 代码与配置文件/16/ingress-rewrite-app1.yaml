@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-rewrite-app1
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: ingress-rewrite-app1
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ingress-rewrite-app1
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: ingress-rewrite-app1
+  template:
+    metadata:
+      labels:
+        app: ingress-rewrite-app1
+    spec:
+      containers:
+      - image: nginx
+        name: ingress-rewrite-app1
+        imagePullPolicy: IfNotPresent

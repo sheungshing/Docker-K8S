@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  #StatefulSets控制器的名称
+  name: statefulset-demo      
+spec:
+  selector:
+    matchLabels:
+      #通过标签与Pod关联
+      app: nginx    
+  #指定Service的名称
+  serviceName: "nginx-service" 
+  replicas: 4
+  template:
+    metadata:
+      labels:
+         #定义Pod的标签
+        app: nginx  
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      #定义Pod里容器的名称
+      - name: nginx   
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+          name: web

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-configmap4
+data:
+  db.host: 192.168.0.200
+  db.port: "3306"
+  user: "admin"
+  password: "123456"
