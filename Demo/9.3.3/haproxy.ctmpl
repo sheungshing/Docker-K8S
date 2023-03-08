@@ -1,0 +1,11 @@
+global
+    daemon
+defaults
+    mode http
+frontend http-in
+    bind *:80
+    default_backend servers
+backend servers
+    {{range service "nginx"}}
+    server server{{ .Address }}-{{ .Port }} {{ .Address }} : {{ .Port }};
+    {{ end }}
